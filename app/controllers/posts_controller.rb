@@ -2,18 +2,13 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
 
   def index
-    # only active subscribers can see premium posts
-    if current_user.subscription_status == 'active'
-      @posts = Post.all
-    else
-      @posts = Post.free
-    end
+    @posts = Post.all
   end
 
   def show
     # only active subscribers can see premium posts
     if @post.premium? && current_user.subscription_status != 'active'
-      redirect_to posts_path, alert: "#{@post.title} is available only for premium subscribers"
+      redirect_to posts_path, alert: 'It is a post for premium subscribers'
     end
   end
 

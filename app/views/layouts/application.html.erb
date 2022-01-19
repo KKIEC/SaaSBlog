@@ -12,13 +12,21 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <%= link_to 'Posts', posts_path %>
-    <% if current_user %>
-      <%= link_to 'Billing Portal', billing_portal_create_path, method: :post %>
+    <center>
+      <h1>Stripe SaaS Blog demo with premium subscription</h1>
+    </center>
+    <hr>
+    <p class="notice" style="background-color: green;"><%= notice %></p>
+    <p class="alert" style="background-color: red;"><%= alert %></p>
+    <% if user_signed_in? %>
+      <br>
+      <%= link_to 'Posts', posts_path %>
+      <br>
+      <%= link_to 'Pricing', pricing_path %>
+      <br>
+      <%= link_to 'Stripie Billing Portal', billing_portal_create_path, method: :post, data: { disable_with: 'processing...' } %>
+      <br>
       <%= link_to current_user.email, edit_user_registration_path %>
-      <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
       <br>
       Stripe customer id:
       <%= current_user.stripe_customer_id %>
@@ -28,12 +36,10 @@
       <br>
       Subscription status:
       <%= current_user.subscription_status %>
-    <% else %>
-      <%= link_to 'Log in', new_user_session_path %>
-      <%= link_to 'Register', new_user_registration_path %>
+      <br>
+      <%= link_to 'Log out', destroy_user_session_path, method: :delete, data: { disable_with: 'processing...' } %>
+      <br>
     <% end %>
-    <%= link_to 'Posts', posts_path %>
-    <%= link_to 'Pricing', pricing_path %>
     <hr>
     <%= yield %>
   </body>
